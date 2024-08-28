@@ -68,7 +68,20 @@ ENV loader_path_env=${loader_path}
 
 ADD configure_start.sh configure_start.sh
 
-RUN chmod +x configure_start.sh
+# install packages and create user
+RUN apk -q update \
+&& apk add -q unzip sudo curl bash wget \
+&& addgroup -g ${container_user_gid} ${container_user_group} \
+&& adduser -s /bin/sh -u ${container_user_uid} -G ${container_user_group} -h /home/${container_user} --disabled-password ${container_user} \
+&& addgroup sudo \
+&& adduser ${container_user} sudo \
+&& echo "%sudo ALL=(ALL) NOPASSWD:/home/${container_user}/${hsm_local_dir}/install.sh" >> /etc/sudoers \
+&& echo "%sudo ALL=(ALL) NOPASSWD:/home/${container_user}/${biosdk_local_dir}/install.sh" >> /etc/sudoers \
+&& chown -R ${container_user}:${container_user} /home/${container_user} \
+&& chmod +x configure_start.sh
+# select container user for all tasks
+
+USER ${container_user_uid}:${container_user_gid}
 
 ADD target/keys-generator-*.jar keys-generator.jar
 
