@@ -78,6 +78,8 @@ RUN mkdir -p ${loader_path}
 
 ENV loader_path_env=${loader_path}
 
+ADD configure_start.sh configure_start.sh
+
 RUN apk -q update \
 && apk add -q unzip sudo curl bash wget \
 && addgroup -g ${container_user_gid} ${container_user_group} \
