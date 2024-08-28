@@ -78,12 +78,6 @@ RUN mkdir -p ${loader_path}
 
 ENV loader_path_env=${loader_path}
 
-
-ADD configure_start.sh configure_start.sh
-# install packages and create user
-
-ADD target/keys-generator-*.jar keys-generator.jar
-
 RUN apk -q update \
 && apk add -q unzip sudo curl bash wget \
 && addgroup -g ${container_user_gid} ${container_user_group} \
@@ -94,6 +88,8 @@ RUN apk -q update \
 && chmod +x configure_start.sh
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
+
+ADD target/keys-generator-*.jar keys-generator.jar
 
 ENTRYPOINT [ "./configure_start.sh" ]
 
