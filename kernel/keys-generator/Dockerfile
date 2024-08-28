@@ -105,7 +105,7 @@ RUN chmod a-w /home/${container_user}/configure_start.sh
 ADD ./target/*.jar /target/
 RUN find /target -name '*.jar' -executable -type f "-print0" | xargs "-0" cp -t / \
     && rm -rf /target \
-    && mv /*.jar ${work_dir}/kernel-keymanager-service.jar
+    && mv /*.jar ${work_dir}/kernel-generator.jar
 
 # change permissions of file inside working dir
 RUN chown -R ${container_user}:${container_user} /home/${container_user}
