@@ -1,4 +1,4 @@
-\c mosip_keymgr 
+\c :mosipdbname
 
 \ir ddl/keymgr-key_alias.sql
 \ir ddl/keymgr-key_policy_def.sql
